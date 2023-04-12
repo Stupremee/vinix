@@ -42,6 +42,10 @@
         src = craneLib.cleanCargoSource (craneLib.path ./.);
 
         doCheck = false;
+
+        buildInputs = pkgs.lib.optionals pkgs.stdenv.isDarwin [
+          pkgs.darwin.apple_sdk.frameworks.Security
+        ];
       };
     in {
       checks = {

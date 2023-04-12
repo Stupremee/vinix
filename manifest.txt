@@ -1,0 +1,9 @@
+0styx0/abbreinder.nvim
+4e554c4c/darkman.nvim
+Abstract-IDE/penvim
+AckslD/messages.nvim
+AckslD/nvim-FeMaco.lua
+AckslD/nvim-gfold.lua
+AckslD/nvim-neoclip.lua
+AckslD/nvim-revJ.lua
+AckslD/swenv.nvim

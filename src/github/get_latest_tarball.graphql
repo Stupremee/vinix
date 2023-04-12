@@ -1,0 +1,14 @@
+query GetTarball($owner: String!, $repo: String!) {
+  repository(owner: $owner, name: $repo) {
+    defaultBranchRef {
+      target {
+        __typename
+
+        ... on Commit {
+          tarballUrl
+          committedDate
+        }
+      }
+    }
+  }
+}

@@ -6,3 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = { version = "4.2.1", features = ["derive", "env"] }
+color-eyre = "0.6.2"
+graphql_client = { version = "0.12.0", features = ["reqwest"] }
+reqwest = "0.11.16"
+serde = { version = "1.0.160", features = ["derive"] }
+tokio = { version = "1.27.0", features = ["full"] }
