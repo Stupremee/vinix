@@ -5,9 +5,7 @@ use reqwest::Client;
 
 use crate::manifest::ManifestEntry;
 
-#[allow(clippy::upper_case_acronyms)]
-type URI = String;
-
+type GitObjectID = String;
 type DateTime = chrono::DateTime<FixedOffset>;
 
 #[derive(Clone, Debug)]
@@ -78,7 +76,10 @@ impl GithubClient {
 
         let commit = match target {
             get_tarball::GetTarballRepositoryDefaultBranchRefTarget::Commit(commit) => CommitInfo {
-                tarball_url: commit.tarball_url,
+                tarball_url: format!(
+                    "https://github.com/{}/{}/archive/{}.tar.gz",
+                    entry.owner, entry.repo, commit.oid
+                ),
                 date: commit.committed_date,
             },
             _ => bail!("target is not commit"),

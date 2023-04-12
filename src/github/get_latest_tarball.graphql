@@ -5,7 +5,7 @@ query GetTarball($owner: String!, $repo: String!) {
         __typename
 
         ... on Commit {
-          tarballUrl
+          oid
           committedDate
         }
       }

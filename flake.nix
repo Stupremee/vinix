@@ -63,7 +63,14 @@
 
       formatter = pkgs.alejandra;
 
-      packages.default = vinix;
+      # packages.default = vinix;
+      packages =
+        {
+          default = vinix;
+        }
+        // (pkgs.callPackage ./pkgs.nix {
+          inherit (pkgs.vimUtils) buildVimPluginFrom2Nix;
+        });
 
       apps.default = flake-utils.lib.mkApp {
         drv = vinix;
