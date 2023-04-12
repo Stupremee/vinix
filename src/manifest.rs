@@ -13,6 +13,10 @@ pub async fn read_manifest(path: &Path) -> Result<Vec<ManifestEntry>> {
 
     let mut entries = vec![];
     for (idx, line) in contents.lines().enumerate() {
+        if line.trim().is_empty() || line.starts_with('#') {
+            continue;
+        }
+
         let Some((owner, rest)) = line.split_once('/') else {
             // start line numbers at 1
             bail!("line {} was invalid", idx + 1);

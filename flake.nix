@@ -32,6 +32,9 @@
         overlays = [(import rust-overlay)];
       };
 
+      inherit (pkgs.lib) optionals;
+      inherit (pkgs) darwin stdenv;
+
       rustToolchain = pkgs.rust-bin.stable.latest.default.override {
         extensions = ["rust-src"];
       };
@@ -43,9 +46,15 @@
 
         doCheck = false;
 
-        buildInputs = pkgs.lib.optionals pkgs.stdenv.isDarwin [
-          pkgs.darwin.apple_sdk.frameworks.Security
-        ];
+        buildInputs =
+          (with pkgs;
+            optionals stdenv.isLinux [
+              pkg-config
+              openssl
+            ])
+          ++ (optionals stdenv.isDarwin [
+            darwin.apple_sdk.frameworks.Security
+          ]);
       };
     in {
       checks = {

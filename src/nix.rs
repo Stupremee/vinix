@@ -1,9 +1,9 @@
 use color_eyre::{eyre::bail, Result};
 use tokio::process::Command;
 
-pub async fn prefetch_url(url: String) -> Result<String> {
+pub async fn prefetch_url(url: &str) -> Result<String> {
     let cmd = Command::new("nix-prefetch-url")
-        .args(["--type", "sha256", url.as_str()])
+        .args(["--type", "sha256", url])
         .output()
         .await?;
 

@@ -11,4 +11,11 @@ query GetTarball($owner: String!, $repo: String!) {
       }
     }
   }
+
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
 }

@@ -1,15 +1,19 @@
+use chrono::FixedOffset;
 use color_eyre::{eyre::bail, Result};
 use graphql_client::{reqwest::post_graphql, GraphQLQuery};
 use reqwest::Client;
 
 use crate::manifest::ManifestEntry;
 
+#[allow(clippy::upper_case_acronyms)]
 type URI = String;
+
+type DateTime = chrono::DateTime<FixedOffset>;
 
 #[derive(Clone, Debug)]
 pub struct CommitInfo {
     pub tarball_url: String,
-    pub date: String,
+    pub date: chrono::DateTime<FixedOffset>,
 }
 
 #[derive(GraphQLQuery)]
@@ -56,7 +60,14 @@ impl GithubClient {
         )
         .await?;
 
+        if let Some(errors) = response.errors.filter(|e| !e.is_empty()) {
+            let error = errors.first().map(ToString::to_string).unwrap();
+
+            bail!("entry {}/{} failed: {}", entry.owner, entry.repo, error)
+        }
+
         let data: get_tarball::ResponseData = response.data.unwrap();
+
         let target = data
             .repository
             .unwrap()
