@@ -32,7 +32,7 @@
         overlays = [(import rust-overlay)];
       };
 
-      inherit (pkgs.lib) optionals;
+      inherit (pkgs.lib) optionals cleanSourceWith;
       inherit (pkgs) darwin stdenv;
 
       rustToolchain = pkgs.rust-bin.stable.latest.default.override {
@@ -42,7 +42,18 @@
       craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
 
       vinix = craneLib.buildPackage {
-        src = craneLib.cleanCargoSource (craneLib.path ./.);
+        src = let
+          # Only keeps markdown files
+          graphqlFilter = path: _type: builtins.match ".*graphql$" path != null;
+
+          filter = path: type:
+            (graphqlFilter path type) || (craneLib.filterCargoSources path type);
+        in
+          cleanSourceWith {
+            inherit filter;
+            src = craneLib.path ./.;
+          };
+        # src = craneLib.cleanCargoSource (craneLib.path ./.);
 
         doCheck = false;
 

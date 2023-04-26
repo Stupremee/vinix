@@ -1,0 +1,4 @@
+file = "pkgs.nix"
+
+[dressing-nvim]
+repo = "stevearc/dressing.nvim"
