@@ -57,7 +57,7 @@ async fn main() -> Result<()> {
     }
 
     let mut expr = "\
-    { buildVimPluginFrom2Nix, fetchurl }:
+    { buildVimPlugin, fetchurl }:
     {\n"
     .to_string();
 
@@ -119,7 +119,7 @@ async fn generate_pkg(
     let version = commit.version;
 
     let expr = format!(
-        r#"  {name} = buildVimPluginFrom2Nix {{
+        r#"  {name} = buildVimPlugin {{
     pname = "{name}"; # Manifest entry: "{owner}/{repo}"
     version = "{version}";
     src = fetchurl {{
